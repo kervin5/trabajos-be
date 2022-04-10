@@ -151,6 +151,7 @@ type LoginResponse {
 type Query {
   user(id: String!): User!
   users(where: UserWhereInput, orderBy: [UserOrderByWithRelationAndSearchRelevanceInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+  jobs(filter: JobWhereInput!): [Job!]!
 }
 
 input UserWhereInput {

@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { JobCreateNestedManyWithoutAuthorInput } from '../job/job-create-nested-many-without-author.input';
+import { HideField } from '@nestjs/graphql';
 import { SystemRole } from '../prisma/system-role.enum';
 import { EmployeeInCompanyCreateNestedManyWithoutEmployeeInput } from '../employee-in-company/employee-in-company-create-nested-many-without-employee.input';
 
@@ -28,7 +29,7 @@ export class UserCreateWithoutTagsInput {
     @Field(() => String, {nullable:true})
     lastName?: string;
 
-    @Field(() => JobCreateNestedManyWithoutAuthorInput, {nullable:true})
+    @HideField()
     jobs?: JobCreateNestedManyWithoutAuthorInput;
 
     @Field(() => SystemRole, {nullable:false})
