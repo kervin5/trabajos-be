@@ -143,6 +143,11 @@ enum SystemRole {
   EMPLOYER
 }
 
+type LoginResponse {
+  accessToken: String!
+  user: User!
+}
+
 type Query {
   user(id: String!): User!
   users(where: UserWhereInput, orderBy: [UserOrderByWithRelationAndSearchRelevanceInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
@@ -585,4 +590,13 @@ enum UserScalarFieldEnum {
   phone
   emailVerified
   phoneVerified
+}
+
+type Mutation {
+  login(loginInput: LoginInput!): LoginResponse!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }

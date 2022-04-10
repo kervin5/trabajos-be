@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
-import { PrismaService } from "nestjs-prisma";
 import { DateScalar } from "../common/scalars/date.scalar";
 import { UsersResolver } from "./users.resolver";
+import { UsersService } from "./users.service";
 
 @Module({
-  providers: [UsersResolver, DateScalar],
+  providers: [UsersResolver, DateScalar, UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

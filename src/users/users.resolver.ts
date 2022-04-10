@@ -1,10 +1,14 @@
-import { NotFoundException } from "@nestjs/common";
+import { NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver, Subscription } from "@nestjs/graphql";
+
 import { PubSub } from "graphql-subscriptions";
 import { PrismaService } from "nestjs-prisma";
 import { CreateOneUserArgs } from "src/@generated/prisma-nestjs-graphql/user/create-one-user.args";
 import { FindManyUserArgs } from "src/@generated/prisma-nestjs-graphql/user/find-many-user.args";
+import { UserWhereInput } from "src/@generated/prisma-nestjs-graphql/user/user-where.input";
 import { User } from "src/@generated/prisma-nestjs-graphql/user/user.model";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { UsersService } from "./users.service";
 // import { NewRecipeInput } from "./dto/new-recipe.input";
 // import { RecipesArgs } from "./dto/recipes.args";
 // import { Recipe } from "./models/recipe.model";
@@ -12,13 +16,16 @@ import { User } from "src/@generated/prisma-nestjs-graphql/user/user.model";
 
 const pubSub = new PubSub();
 
-@Resolver((of) => User)
+@Resolver(() => User)
 export class UsersResolver {
   //   constructor(private readonly recipesService: RecipesService) {}
 
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly usersService: UsersService
+  ) {}
 
-  @Query((returns) => User)
+  @Query(() => User)
   async user(@Args("id") id: string): Promise<User> {
     const user = await this.prismaService.user.findUnique({ where: { id } });
     if (!user) {
@@ -27,9 +34,10 @@ export class UsersResolver {
     return user;
   }
 
-  @Query((returns) => [User])
+  @Query(() => [User])
+  @UseGuards(JwtAuthGuard)
   users(@Args() usersArgs: FindManyUserArgs): Promise<User[]> {
-    return this.prismaService.user.findMany(usersArgs);
+    return this.usersService.findMany(usersArgs.where);
   }
 
   //   @Mutation((returns) => User)

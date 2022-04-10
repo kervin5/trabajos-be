@@ -10,6 +10,7 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
 } from "apollo-server-core";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -41,6 +42,8 @@ import {
     PrismaModule.forRoot({ isGlobal: true }),
 
     UsersModule,
+
+    AuthModule,
   ],
 })
 export class AppModule {}
