@@ -1,0 +1,131 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+generator nestgraphql {
+  provider = "node node_modules/prisma-nestjs-graphql"
+  // for yarn monorepos
+  // provider = "prisma-nestjs-graphql"
+  output   = "../src/@generated/prisma-nestjs-graphql"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//All user roles that can be used in the app
+enum SystemRole {
+  ADMIN
+  CANDIDATE
+  EMPLOYER
+}
+
+enum UserRoleInCompany {
+  OWNER
+  ADMIN
+  RECRUITER
+}
+
+enum JobStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+  DELETED
+  EXPIRED
+}
+
+model Company {
+  id        String              @id @default(uuid())
+  name      String
+  employees EmployeeInCompany[]
+  jobs      Job[]
+  verified  Boolean             @default(false)
+}
+
+model EmployeeInCompany {
+  company    Company           @relation(fields: [companyId], references: [id])
+  companyId  String
+  employee   User              @relation(fields: [employeeId], references: [id])
+  employeeId String
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  role       UserRoleInCompany @default(RECRUITER)
+
+  @@id([employeeId, companyId])
+}
+
+model Location {
+  id        String @id @default(uuid())
+  name      String @unique
+  latitude  Float
+  longitude Float
+  jobs      Job[]
+}
+
+model User {
+  id            String              @id @default(uuid())
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  email         String              @unique
+  /// @HideField({ output: true, input: false })
+  password      String
+  firstName     String?
+  lastName      String?
+  ///@HideField({ match: 'UserCreate*Input' })
+  jobs          Job[]
+  role          SystemRole
+  phone         String?
+  /// @HideField()
+  companies     EmployeeInCompany[]
+  emailVerified Boolean             @default(false)
+  phoneVerified Boolean             @default(false)
+  tags          Tag[]
+}
+
+enum JobSource {
+  INTERNAL
+  EXTERNAL
+}
+
+model Job {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  expiresAt   DateTime?
+  title       String
+  content     String
+  status      JobStatus @default(DRAFT)
+  views       Int       @default(0)
+  author      User?     @relation(fields: [authorId], references: [id])
+  authorId    String?
+  location    Location? @relation(fields: [locationId], references: [id])
+  locationId  String?
+  source      JobSource @default(INTERNAL)
+  company     Company?  @relation(fields: [companyId], references: [id])
+  companyId   String?
+  images      Image[]
+  externalUrl String?
+  tags        Tag[]
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  path      String
+  bucket    String
+  job       Job?     @relation(fields: [jobId], references: [id])
+  jobId     String?
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  jobs      Job[]
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}

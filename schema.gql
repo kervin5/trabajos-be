@@ -4,34 +4,585 @@
 
 directive @upper on FIELD_DEFINITION
 
-"""recipe """
-type Recipe {
+type LocationCount {
+  jobs: Int!
+}
+
+type Location {
   id: ID!
-  description: String
-  creationDate: Date!
-  ingredients: [String!]!
-  title: String!
+  name: String!
+  latitude: Float!
+  longitude: Float!
+  jobs: [Job!]
+  _count: LocationCount!
+}
+
+type EmployeeInCompany {
+  company: Company!
+  companyId: String!
+  employee: User!
+  employeeId: String!
+  createdAt: Date!
+  updatedAt: Date!
+  role: UserRoleInCompany!
 }
 
 """Date custom scalar type"""
 scalar Date
 
-type Query {
-  recipe(id: String!): Recipe!
-  recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
+enum UserRoleInCompany {
+  OWNER
+  ADMIN
+  RECRUITER
 }
 
-type Mutation {
-  addRecipe(newRecipeData: NewRecipeInput!): Recipe!
-  removeRecipe(id: String!): Boolean!
+type CompanyCount {
+  employees: Int!
+  jobs: Int!
 }
 
-input NewRecipeInput {
+type Company {
+  id: ID!
+  name: String!
+  employees: [EmployeeInCompany!]
+  jobs: [Job!]
+  verified: Boolean!
+  _count: CompanyCount!
+}
+
+type Image {
+  id: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  path: String!
+  bucket: String!
+  job: Job
+  jobId: String
+}
+
+type TagCount {
+  jobs: Int!
+}
+
+type Tag {
+  id: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  name: String!
+  jobs: [Job!]
+  User: User
+  userId: String
+  _count: TagCount!
+}
+
+type JobCount {
+  images: Int!
+  tags: Int!
+}
+
+type Job {
+  id: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  expiresAt: Date
   title: String!
-  description: String
-  ingredients: [String!]!
+  content: String!
+  status: JobStatus!
+  views: Int!
+  author: User
+  authorId: String
+  location: Location
+  locationId: String
+  source: JobSource!
+  company: Company
+  companyId: String
+  images: [Image!]
+  externalUrl: String
+  tags: [Tag!]
+  _count: JobCount!
 }
 
-type Subscription {
-  recipeAdded: Recipe!
+enum JobStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+  DELETED
+  EXPIRED
+}
+
+enum JobSource {
+  INTERNAL
+  EXTERNAL
+}
+
+type UserCount {
+  jobs: Int!
+  companies: Int!
+  tags: Int!
+}
+
+type User {
+  id: ID!
+  createdAt: Date!
+  updatedAt: Date!
+  email: String!
+  firstName: String
+  lastName: String
+  jobs: [Job!]
+  role: SystemRole!
+  phone: String
+  emailVerified: Boolean!
+  phoneVerified: Boolean!
+  tags: [Tag!]
+  _count: UserCount!
+}
+
+enum SystemRole {
+  ADMIN
+  CANDIDATE
+  EMPLOYER
+}
+
+type Query {
+  user(id: String!): User!
+  users(where: UserWhereInput, orderBy: [UserOrderByWithRelationAndSearchRelevanceInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  email: StringFilter
+  password: StringFilter
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  jobs: JobListRelationFilter
+  role: EnumSystemRoleFilter
+  phone: StringNullableFilter
+  companies: EmployeeInCompanyListRelationFilter
+  emailVerified: BoolFilter
+  phoneVerified: BoolFilter
+  tags: TagListRelationFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  search: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  search: String
+  not: NestedStringFilter
+}
+
+input DateTimeFilter {
+  equals: Date
+  in: [Date!]
+  notIn: [Date!]
+  lt: Date
+  lte: Date
+  gt: Date
+  gte: Date
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: Date
+  in: [Date!]
+  notIn: [Date!]
+  lt: Date
+  lte: Date
+  gt: Date
+  gte: Date
+  not: NestedDateTimeFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  search: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  search: String
+  not: NestedStringNullableFilter
+}
+
+input JobListRelationFilter {
+  every: JobWhereInput
+  some: JobWhereInput
+  none: JobWhereInput
+}
+
+input JobWhereInput {
+  AND: [JobWhereInput!]
+  OR: [JobWhereInput!]
+  NOT: [JobWhereInput!]
+  id: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  expiresAt: DateTimeNullableFilter
+  title: StringFilter
+  content: StringFilter
+  status: EnumJobStatusFilter
+  views: IntFilter
+  author: UserRelationFilter
+  authorId: StringNullableFilter
+  location: LocationRelationFilter
+  locationId: StringNullableFilter
+  source: EnumJobSourceFilter
+  company: CompanyRelationFilter
+  companyId: StringNullableFilter
+  images: ImageListRelationFilter
+  externalUrl: StringNullableFilter
+  tags: TagListRelationFilter
+}
+
+input DateTimeNullableFilter {
+  equals: Date
+  in: [Date!]
+  notIn: [Date!]
+  lt: Date
+  lte: Date
+  gt: Date
+  gte: Date
+  not: NestedDateTimeNullableFilter
+}
+
+input NestedDateTimeNullableFilter {
+  equals: Date
+  in: [Date!]
+  notIn: [Date!]
+  lt: Date
+  lte: Date
+  gt: Date
+  gte: Date
+  not: NestedDateTimeNullableFilter
+}
+
+input EnumJobStatusFilter {
+  equals: JobStatus
+  in: [JobStatus!]
+  notIn: [JobStatus!]
+  not: NestedEnumJobStatusFilter
+}
+
+input NestedEnumJobStatusFilter {
+  equals: JobStatus
+  in: [JobStatus!]
+  notIn: [JobStatus!]
+  not: NestedEnumJobStatusFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+input LocationRelationFilter {
+  is: LocationWhereInput
+  isNot: LocationWhereInput
+}
+
+input LocationWhereInput {
+  AND: [LocationWhereInput!]
+  OR: [LocationWhereInput!]
+  NOT: [LocationWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  latitude: FloatFilter
+  longitude: FloatFilter
+  jobs: JobListRelationFilter
+}
+
+input FloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatFilter
+}
+
+input NestedFloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: NestedFloatFilter
+}
+
+input EnumJobSourceFilter {
+  equals: JobSource
+  in: [JobSource!]
+  notIn: [JobSource!]
+  not: NestedEnumJobSourceFilter
+}
+
+input NestedEnumJobSourceFilter {
+  equals: JobSource
+  in: [JobSource!]
+  notIn: [JobSource!]
+  not: NestedEnumJobSourceFilter
+}
+
+input CompanyRelationFilter {
+  is: CompanyWhereInput
+  isNot: CompanyWhereInput
+}
+
+input CompanyWhereInput {
+  AND: [CompanyWhereInput!]
+  OR: [CompanyWhereInput!]
+  NOT: [CompanyWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  employees: EmployeeInCompanyListRelationFilter
+  jobs: JobListRelationFilter
+  verified: BoolFilter
+}
+
+input EmployeeInCompanyListRelationFilter {
+  every: EmployeeInCompanyWhereInput
+  some: EmployeeInCompanyWhereInput
+  none: EmployeeInCompanyWhereInput
+}
+
+input EmployeeInCompanyWhereInput {
+  AND: [EmployeeInCompanyWhereInput!]
+  OR: [EmployeeInCompanyWhereInput!]
+  NOT: [EmployeeInCompanyWhereInput!]
+  company: CompanyRelationFilter
+  companyId: StringFilter
+  employee: UserRelationFilter
+  employeeId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  role: EnumUserRoleInCompanyFilter
+}
+
+input EnumUserRoleInCompanyFilter {
+  equals: UserRoleInCompany
+  in: [UserRoleInCompany!]
+  notIn: [UserRoleInCompany!]
+  not: NestedEnumUserRoleInCompanyFilter
+}
+
+input NestedEnumUserRoleInCompanyFilter {
+  equals: UserRoleInCompany
+  in: [UserRoleInCompany!]
+  notIn: [UserRoleInCompany!]
+  not: NestedEnumUserRoleInCompanyFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input ImageListRelationFilter {
+  every: ImageWhereInput
+  some: ImageWhereInput
+  none: ImageWhereInput
+}
+
+input ImageWhereInput {
+  AND: [ImageWhereInput!]
+  OR: [ImageWhereInput!]
+  NOT: [ImageWhereInput!]
+  id: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  path: StringFilter
+  bucket: StringFilter
+  job: JobRelationFilter
+  jobId: StringNullableFilter
+}
+
+input JobRelationFilter {
+  is: JobWhereInput
+  isNot: JobWhereInput
+}
+
+input TagListRelationFilter {
+  every: TagWhereInput
+  some: TagWhereInput
+  none: TagWhereInput
+}
+
+input TagWhereInput {
+  AND: [TagWhereInput!]
+  OR: [TagWhereInput!]
+  NOT: [TagWhereInput!]
+  id: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  name: StringFilter
+  jobs: JobListRelationFilter
+  User: UserRelationFilter
+  userId: StringNullableFilter
+}
+
+input EnumSystemRoleFilter {
+  equals: SystemRole
+  in: [SystemRole!]
+  notIn: [SystemRole!]
+  not: NestedEnumSystemRoleFilter
+}
+
+input NestedEnumSystemRoleFilter {
+  equals: SystemRole
+  in: [SystemRole!]
+  notIn: [SystemRole!]
+  not: NestedEnumSystemRoleFilter
+}
+
+input UserOrderByWithRelationAndSearchRelevanceInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  email: SortOrder
+  password: SortOrder
+  firstName: SortOrder
+  lastName: SortOrder
+  jobs: JobOrderByRelationAggregateInput
+  role: SortOrder
+  phone: SortOrder
+  companies: EmployeeInCompanyOrderByRelationAggregateInput
+  emailVerified: SortOrder
+  phoneVerified: SortOrder
+  tags: TagOrderByRelationAggregateInput
+  _relevance: UserOrderByRelevanceInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input JobOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input EmployeeInCompanyOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input TagOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserOrderByRelevanceInput {
+  fields: [UserOrderByRelevanceFieldEnum!]!
+  sort: SortOrder!
+  search: String!
+}
+
+enum UserOrderByRelevanceFieldEnum {
+  id
+  email
+  password
+  firstName
+  lastName
+  phone
+}
+
+input UserWhereUniqueInput {
+  id: String
+  email: String
+}
+
+enum UserScalarFieldEnum {
+  id
+  createdAt
+  updatedAt
+  email
+  password
+  firstName
+  lastName
+  role
+  phone
+  emailVerified
+  phoneVerified
 }

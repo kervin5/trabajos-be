@@ -1,0 +1,45 @@
+import { Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+
+@InputType()
+export class JobMaxAggregateInput {
+
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    expiresAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    title?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    content?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    status?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    views?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    authorId?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    locationId?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    source?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    companyId?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    externalUrl?: true;
+}

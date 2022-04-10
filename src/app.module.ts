@@ -3,7 +3,9 @@ import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 import { DirectiveLocation, GraphQLDirective } from "graphql";
 import { upperDirectiveTransformer } from "./common/directives/upper-case.directive";
+import { PrismaModule } from "nestjs-prisma";
 import { RecipesModule } from "./recipes/recipes.module";
+import { UsersModule } from "./users/users.module";
 import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
@@ -11,13 +13,13 @@ import {
 
 @Module({
   imports: [
-    RecipesModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: "schema.gql",
       transformSchema: (schema) => upperDirectiveTransformer(schema, "upper"),
       installSubscriptionHandlers: true,
       playground: false,
+      debug: true,
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
@@ -36,6 +38,9 @@ import {
           : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
       ],
     }),
+    PrismaModule.forRoot({ isGlobal: true }),
+
+    UsersModule,
   ],
 })
 export class AppModule {}
