@@ -4,6 +4,7 @@ import { ID } from '@nestjs/graphql';
 import { JobStatus } from '../prisma/job-status.enum';
 import { Int } from '@nestjs/graphql';
 import { User } from '../user/user.model';
+import { HideField } from '@nestjs/graphql';
 import { Location } from '../location/location.model';
 import { JobSource } from '../prisma/job-source.enum';
 import { Company } from '../company/company.model';
@@ -41,7 +42,7 @@ export class Job {
     @Field(() => User, {nullable:true})
     author?: User | null;
 
-    @Field(() => String, {nullable:true})
+    @HideField()
     authorId!: string | null;
 
     @Field(() => Location, {nullable:true})

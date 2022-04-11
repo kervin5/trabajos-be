@@ -8,7 +8,7 @@ import { RecipesService } from "./recipes.service";
 
 const pubSub = new PubSub();
 
-@Resolver((of) => Recipe)
+@Resolver(() => Recipe)
 export class RecipesResolver {
   constructor(private readonly recipesService: RecipesService) {}
 

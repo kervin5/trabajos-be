@@ -12,6 +12,9 @@ import {
 } from "apollo-server-core";
 import { AuthModule } from "./auth/auth.module";
 import { JobsModule } from "./jobs/jobs.module";
+import { LocationsModule } from "./locations/locations.module";
+import { MapboxService } from "./mapbox/mapbox.service";
+import { MapboxModule } from "./mapbox/mapbox.module";
 
 @Module({
   imports: [
@@ -41,12 +44,11 @@ import { JobsModule } from "./jobs/jobs.module";
       ],
     }),
     PrismaModule.forRoot({ isGlobal: true }),
-
     UsersModule,
-
     AuthModule,
-
     JobsModule,
+    LocationsModule,
+    MapboxModule,
   ],
 })
 export class AppModule {}

@@ -37,7 +37,7 @@ export class UsersResolver {
   @Query(() => [User])
   @UseGuards(JwtAuthGuard)
   users(@Args() args: FindManyUserArgs): Promise<User[]> {
-    return this.usersService.findMany(args.where);
+    return this.usersService.findMany({ ...args.where });
   }
 
   //   @Mutation((returns) => User)

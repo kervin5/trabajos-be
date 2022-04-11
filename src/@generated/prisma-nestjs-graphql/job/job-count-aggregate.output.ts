@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
+import { HideField } from '@nestjs/graphql';
 
 @ObjectType()
 export class JobCountAggregate {
@@ -29,7 +30,7 @@ export class JobCountAggregate {
     @Field(() => Int, {nullable:false})
     views!: number;
 
-    @Field(() => Int, {nullable:false})
+    @HideField()
     authorId!: number;
 
     @Field(() => Int, {nullable:false})

@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { JobStatus } from '../prisma/job-status.enum';
 import { Int } from '@nestjs/graphql';
+import { HideField } from '@nestjs/graphql';
 import { JobSource } from '../prisma/job-source.enum';
 
 @ObjectType()
@@ -31,7 +32,7 @@ export class JobMaxAggregate {
     @Field(() => Int, {nullable:true})
     views?: number;
 
-    @Field(() => String, {nullable:true})
+    @HideField()
     authorId?: string;
 
     @Field(() => String, {nullable:true})

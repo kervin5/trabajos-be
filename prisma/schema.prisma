@@ -99,6 +99,7 @@ model Job {
   status      JobStatus @default(DRAFT)
   views       Int       @default(0)
   author      User?     @relation(fields: [authorId], references: [id])
+  /// @HideField()
   authorId    String?
   location    Location? @relation(fields: [locationId], references: [id])
   locationId  String?
