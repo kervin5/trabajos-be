@@ -2,10 +2,11 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Job } from '../job/job.model';
+import { HideField } from '@nestjs/graphql';
 import { User } from '../user/user.model';
 import { TagCount } from './tag-count.output';
 
-@ObjectType()
+@ObjectType({isAbstract:true})
 export class Tag {
 
     @Field(() => ID, {nullable:false})
@@ -20,10 +21,10 @@ export class Tag {
     @Field(() => String, {nullable:false})
     name!: string;
 
-    @Field(() => [Job], {nullable:true})
+    @HideField()
     jobs?: Array<Job>;
 
-    @Field(() => User, {nullable:true})
+    @HideField()
     User?: User | null;
 
     @Field(() => String, {nullable:true})

@@ -2,10 +2,11 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { EmployeeInCompany } from '../employee-in-company/employee-in-company.model';
+import { HideField } from '@nestjs/graphql';
 import { Job } from '../job/job.model';
 import { CompanyCount } from './company-count.output';
 
-@ObjectType()
+@ObjectType({isAbstract:true})
 export class Company {
 
     @Field(() => ID, {nullable:false})
@@ -14,10 +15,10 @@ export class Company {
     @Field(() => String, {nullable:false})
     name!: string;
 
-    @Field(() => [EmployeeInCompany], {nullable:true})
+    @HideField()
     employees?: Array<EmployeeInCompany>;
 
-    @Field(() => [Job], {nullable:true})
+    @HideField()
     jobs?: Array<Job>;
 
     @Field(() => Boolean, {nullable:false,defaultValue:false})

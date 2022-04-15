@@ -12,7 +12,7 @@ import { Image } from '../image/image.model';
 import { Tag } from '../tag/tag.model';
 import { JobCount } from './job-count.output';
 
-@ObjectType()
+@ObjectType({isAbstract:true})
 export class Job {
 
     @Field(() => ID, {nullable:false})
@@ -39,13 +39,13 @@ export class Job {
     @Field(() => Int, {nullable:false,defaultValue:0})
     views!: number;
 
-    @Field(() => User, {nullable:true})
+    @HideField()
     author?: User | null;
 
     @HideField()
     authorId!: string | null;
 
-    @Field(() => Location, {nullable:true})
+    @HideField()
     location?: Location | null;
 
     @Field(() => String, {nullable:true})
@@ -54,13 +54,13 @@ export class Job {
     @Field(() => JobSource, {nullable:false,defaultValue:'INTERNAL'})
     source!: keyof typeof JobSource;
 
-    @Field(() => Company, {nullable:true})
+    @HideField()
     company?: Company | null;
 
     @Field(() => String, {nullable:true})
     companyId!: string | null;
 
-    @Field(() => [Image], {nullable:true})
+    @HideField()
     images?: Array<Image>;
 
     @Field(() => String, {nullable:true})

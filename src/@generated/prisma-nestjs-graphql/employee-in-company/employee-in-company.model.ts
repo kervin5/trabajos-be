@@ -1,19 +1,20 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { Company } from '../company/company.model';
+import { HideField } from '@nestjs/graphql';
 import { User } from '../user/user.model';
 import { UserRoleInCompany } from '../user/user-role-in-company.enum';
 
-@ObjectType()
+@ObjectType({isAbstract:true})
 export class EmployeeInCompany {
 
-    @Field(() => Company, {nullable:false})
+    @HideField()
     company?: Company;
 
     @Field(() => String, {nullable:false})
     companyId!: string;
 
-    @Field(() => User, {nullable:false})
+    @HideField()
     employee?: User;
 
     @Field(() => String, {nullable:false})

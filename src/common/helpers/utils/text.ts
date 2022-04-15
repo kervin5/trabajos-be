@@ -739,3 +739,11 @@ export function removeStopWords(text: string): string {
     .filter((word) => !spanish.includes(word))
     .join(" ");
 }
+
+export function htmlToPlainText(htmlString: string): string {
+  const text = htmlString
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s\s+/g, " ")
+    .trim();
+  return text;
+}

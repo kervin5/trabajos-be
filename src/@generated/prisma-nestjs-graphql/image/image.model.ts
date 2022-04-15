@@ -2,8 +2,9 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Job } from '../job/job.model';
+import { HideField } from '@nestjs/graphql';
 
-@ObjectType()
+@ObjectType({isAbstract:true})
 export class Image {
 
     @Field(() => ID, {nullable:false})
@@ -21,7 +22,7 @@ export class Image {
     @Field(() => String, {nullable:false})
     bucket!: string;
 
-    @Field(() => Job, {nullable:true})
+    @HideField()
     job?: Job | null;
 
     @Field(() => String, {nullable:true})

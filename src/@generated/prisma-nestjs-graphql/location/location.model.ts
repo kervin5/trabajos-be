@@ -3,9 +3,10 @@ import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
 import { Job } from '../job/job.model';
+import { HideField } from '@nestjs/graphql';
 import { LocationCount } from './location-count.output';
 
-@ObjectType()
+@ObjectType({isAbstract:true})
 export class Location {
 
     @Field(() => ID, {nullable:false})
@@ -20,7 +21,7 @@ export class Location {
     @Field(() => Float, {nullable:false})
     longitude!: number;
 
-    @Field(() => [Job], {nullable:true})
+    @HideField()
     jobs?: Array<Job>;
 
     @Field(() => LocationCount, {nullable:false})

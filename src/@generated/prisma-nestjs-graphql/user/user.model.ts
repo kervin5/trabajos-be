@@ -8,7 +8,7 @@ import { EmployeeInCompany } from '../employee-in-company/employee-in-company.mo
 import { Tag } from '../tag/tag.model';
 import { UserCount } from './user-count.output';
 
-@ObjectType()
+@ObjectType({isAbstract:true})
 export class User {
 
     @Field(() => ID, {nullable:false})
@@ -32,7 +32,7 @@ export class User {
     @Field(() => String, {nullable:true})
     lastName!: string | null;
 
-    @Field(() => [Job], {nullable:true})
+    @HideField()
     jobs?: Array<Job>;
 
     @Field(() => SystemRole, {nullable:false})
@@ -50,7 +50,7 @@ export class User {
     @Field(() => Boolean, {nullable:false,defaultValue:false})
     phoneVerified!: boolean;
 
-    @Field(() => [Tag], {nullable:true})
+    @HideField()
     tags?: Array<Tag>;
 
     @Field(() => UserCount, {nullable:false})

@@ -5,7 +5,8 @@
         "name": "@nestjs/graphql",
         "options": {
           "introspectComments": true
-        }
+        },
+        "sourceRoot": "modules"
       }
     ]
   }

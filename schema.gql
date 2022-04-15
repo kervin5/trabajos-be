@@ -4,27 +4,26 @@
 
 directive @upper on FIELD_DEFINITION
 
-type LocationCount {
+type TagCount {
   jobs: Int!
 }
 
-type Location {
-  id: ID!
-  name: String!
-  latitude: Float!
-  longitude: Float!
-  jobs: [Job!]
-  _count: LocationCount!
+type UserCount {
+  jobs: Int!
+  companies: Int!
+  tags: Int!
 }
 
-type EmployeeInCompany {
-  company: Company!
-  companyId: String!
-  employee: User!
-  employeeId: String!
+"""a single tag"""
+type Tag {
+  id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
-  role: UserRoleInCompany!
+  name: String!
+  userId: String
+  _count: TagCount!
+  jobs: [Job!]
+  User: User
 }
 
 """
@@ -32,10 +31,18 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-enum UserRoleInCompany {
-  OWNER
-  ADMIN
-  RECRUITER
+type LocationCount {
+  jobs: Int!
+}
+
+"""a single location"""
+type Location {
+  id: ID!
+  name: String!
+  latitude: Float!
+  longitude: Float!
+  _count: LocationCount!
+  jobs: [Job!]
 }
 
 type CompanyCount {
@@ -43,38 +50,13 @@ type CompanyCount {
   jobs: Int!
 }
 
+"""a single tag"""
 type Company {
   id: ID!
   name: String!
-  employees: [EmployeeInCompany!]
-  jobs: [Job!]
   verified: Boolean!
   _count: CompanyCount!
-}
-
-type Image {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  path: String!
-  bucket: String!
-  job: Job
-  jobId: String
-}
-
-type TagCount {
-  jobs: Int!
-}
-
-type Tag {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  name: String!
   jobs: [Job!]
-  User: User
-  userId: String
-  _count: TagCount!
 }
 
 type JobCount {
@@ -82,6 +64,18 @@ type JobCount {
   tags: Int!
 }
 
+"""a single image"""
+type Image {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  path: String!
+  bucket: String!
+  jobId: String
+  signedUrl: String
+}
+
+"""a single job"""
 type Job {
   id: ID!
   createdAt: DateTime!
@@ -91,16 +85,17 @@ type Job {
   content: String!
   status: JobStatus!
   views: Int!
-  author: User
-  location: Location
   locationId: String
   source: JobSource!
-  company: Company
   companyId: String
-  images: [Image!]
   externalUrl: String
   tags: [Tag!]
   _count: JobCount!
+  plainTextContent: String
+  author: User
+  location: Location
+  company: Company
+  images: [Image!]
 }
 
 enum JobStatus {
@@ -116,12 +111,7 @@ enum JobSource {
   EXTERNAL
 }
 
-type UserCount {
-  jobs: Int!
-  companies: Int!
-  tags: Int!
-}
-
+"""a single user"""
 type User {
   id: ID!
   createdAt: DateTime!
@@ -129,13 +119,14 @@ type User {
   email: String!
   firstName: String
   lastName: String
-  jobs: [Job!]
   role: SystemRole!
   phone: String
   emailVerified: Boolean!
   phoneVerified: Boolean!
-  tags: [Tag!]
   _count: UserCount!
+  jobs: [Job!]
+  tags: [Tag!]
+  displayName: String
 }
 
 enum SystemRole {
@@ -147,6 +138,14 @@ enum SystemRole {
 type LoginResponse {
   accessToken: String!
   user: User!
+}
+
+"""a single mapbox location"""
+type MapboxLocation {
+  id: ID!
+  name: String!
+  latitude: Float!
+  longitude: Float!
 }
 
 type PageInfo {
@@ -171,7 +170,9 @@ type JobEdge {
 type Query {
   user(id: String!): User!
   users(where: UserWhereInput, orderBy: [UserOrderByWithRelationAndSearchRelevanceInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
-  jobs(first: Int, after: String, last: Int, before: String, filter: JobsFilterInput!): JobsConnection!
+  job(id: String!): Job!
+  jobs(first: Int, after: String, last: Int, before: String, filter: JobsFilterInput): JobsConnection!
+  mapboxLocations(filter: MapboxLocationFilterInput!): [MapboxLocation!]!
 }
 
 input UserWhereInput {
@@ -470,6 +471,12 @@ input EnumUserRoleInCompanyFilter {
   not: NestedEnumUserRoleInCompanyFilter
 }
 
+enum UserRoleInCompany {
+  OWNER
+  ADMIN
+  RECRUITER
+}
+
 input NestedEnumUserRoleInCompanyFilter {
   equals: UserRoleInCompany
   in: [UserRoleInCompany!]
@@ -637,6 +644,11 @@ input JobsFilterInput {
   tags: TagListRelationFilter
   searchString: String
   locationName: String
+}
+
+input MapboxLocationFilterInput {
+  locationName: String
+  limit: Float
 }
 
 type Mutation {

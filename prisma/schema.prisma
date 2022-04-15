@@ -36,17 +36,23 @@ enum JobStatus {
   EXPIRED
 }
 
+/// @ObjectType({isAbstract: true})
 model Company {
   id        String              @id @default(uuid())
   name      String
+  /// @HideField()
   employees EmployeeInCompany[]
+  /// @HideField()
   jobs      Job[]
   verified  Boolean             @default(false)
 }
 
+/// @ObjectType({isAbstract: true})
 model EmployeeInCompany {
+  /// @HideField()
   company    Company           @relation(fields: [companyId], references: [id])
   companyId  String
+  /// @HideField()
   employee   User              @relation(fields: [employeeId], references: [id])
   employeeId String
   createdAt  DateTime          @default(now())
@@ -56,14 +62,17 @@ model EmployeeInCompany {
   @@id([employeeId, companyId])
 }
 
+/// @ObjectType({isAbstract: true})
 model Location {
   id        String @id @default(uuid())
   name      String @unique
   latitude  Float
   longitude Float
+  /// @HideField()
   jobs      Job[]
 }
 
+/// @ObjectType({isAbstract: true})
 model User {
   id            String              @id @default(uuid())
   createdAt     DateTime            @default(now())
@@ -73,7 +82,7 @@ model User {
   password      String
   firstName     String?
   lastName      String?
-  ///@HideField({ match: 'UserCreate*Input' })
+  ///@HideField()
   jobs          Job[]
   role          SystemRole
   phone         String?
@@ -81,6 +90,7 @@ model User {
   companies     EmployeeInCompany[]
   emailVerified Boolean             @default(false)
   phoneVerified Boolean             @default(false)
+  /// @HideField()
   tags          Tag[]
 }
 
@@ -89,6 +99,7 @@ enum JobSource {
   EXTERNAL
 }
 
+/// @ObjectType({isAbstract: true})
 model Job {
   id          String    @id @default(uuid())
   createdAt   DateTime  @default(now())
@@ -98,35 +109,44 @@ model Job {
   content     String
   status      JobStatus @default(DRAFT)
   views       Int       @default(0)
+  /// @HideField()
   author      User?     @relation(fields: [authorId], references: [id])
   /// @HideField()
   authorId    String?
+  /// @HideField()
   location    Location? @relation(fields: [locationId], references: [id])
   locationId  String?
   source      JobSource @default(INTERNAL)
+  /// @HideField()
   company     Company?  @relation(fields: [companyId], references: [id])
   companyId   String?
+  /// @HideField()
   images      Image[]
   externalUrl String?
   tags        Tag[]
 }
 
+/// @ObjectType({isAbstract: true})
 model Image {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   path      String
   bucket    String
+  /// @HideField()
   job       Job?     @relation(fields: [jobId], references: [id])
   jobId     String?
 }
 
+/// @ObjectType({isAbstract: true})
 model Tag {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String
+  /// @HideField()
   jobs      Job[]
+  /// @HideField()
   User      User?    @relation(fields: [userId], references: [id])
   userId    String?
 }
