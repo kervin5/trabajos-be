@@ -8,6 +8,7 @@ import { QueryMode } from "src/common/types/query-mode.type";
 import { LocationsService } from "src/modules/locations/locations.service";
 import { FindManyJobArgs } from "./dto/find-may-job.args";
 import { JobCreateInput } from "./dto/job-create.input";
+import { JobOrderByInput } from "./dto/job-order-by.input";
 import { JobWhereUniqueInput } from "./dto/job-where-unique.input";
 import { JobWhereInput } from "./dto/job-where.input";
 import { JobsFilterInput } from "./dto/jobs-filter.input";
@@ -30,7 +31,8 @@ export class JobsService {
 
   async findManyForConnection(
     filter: JobsFilterInput,
-    pagination: ConnectionArgs
+    pagination: ConnectionArgs,
+    orderBy: JobOrderByInput
   ): Promise<JobsConnection> {
     // return this.prismaService.job.findMany({ where: args });
     console.log(pagination);
@@ -41,10 +43,9 @@ export class JobsService {
       (connectionArgs) =>
         this.prismaService.job.findMany({
           ...queryFilter,
-          // orderBy: {
-          //   updatedAt: orderBy?.updatedAt || undefined,
-          //   createdAt: orderBy?.createdAt || undefined,
-          // },
+          orderBy: {
+            ...orderBy,
+          },
           ...connectionArgs,
           include: {
             author: true,
@@ -138,7 +139,26 @@ export class JobsService {
     return { where: { ...locationFilter, ...textFilter } };
   }
 
-  async create(data: JobCreateInput): Promise<Job> {
-    return {} as any;
+  async create(data: JobCreateInput & { userId: string }): Promise<Job> {
+    const location = await this.locationsService.findOrCreateLocationByName(
+      data.location
+    );
+
+    return this.prismaService.job.create({
+      data: {
+        title: data.title,
+        content: data.content,
+        author: {
+          connect: {
+            id: data.userId,
+          },
+        },
+        location: {
+          connect: {
+            id: location.id,
+          },
+        },
+      },
+    });
   }
 }

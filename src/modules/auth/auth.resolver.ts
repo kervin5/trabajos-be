@@ -14,7 +14,7 @@ export class AuthResolver {
   @Mutation(() => LoginResponse)
   @UseGuards(LocalAuthGuard)
   async login(
-    @Args("loginInput") loginInput: LoginInput,
+    @Args("data") _data: LoginInput,
     @CurrentUser() user: User
   ): Promise<LoginResponse> {
     return this.authService.login(user);

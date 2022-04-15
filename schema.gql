@@ -171,7 +171,7 @@ type Query {
   user(id: String!): User!
   users(where: UserWhereInput, orderBy: [UserOrderByWithRelationAndSearchRelevanceInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
   job(id: String!): Job!
-  jobs(first: Int, after: String, last: Int, before: String, filter: JobsFilterInput): JobsConnection!
+  jobs(filter: JobsFilterInput, orderBy: JobOrderByInput, first: Int, after: String, last: Int, before: String): JobsConnection!
   mapboxLocations(filter: MapboxLocationFilterInput!): [MapboxLocation!]!
 }
 
@@ -646,16 +646,101 @@ input JobsFilterInput {
   locationName: String
 }
 
+input JobOrderByInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  expiresAt: SortOrder
+  title: SortOrder
+  content: SortOrder
+  status: SortOrder
+  views: SortOrder
+  authorId: SortOrder
+  locationId: SortOrder
+  source: SortOrder
+  companyId: SortOrder
+  externalUrl: SortOrder
+  _count: JobCountOrderByAggregateInput
+  _avg: JobAvgOrderByAggregateInput
+  _max: JobMaxOrderByAggregateInput
+  _min: JobMinOrderByAggregateInput
+  _sum: JobSumOrderByAggregateInput
+}
+
+input JobCountOrderByAggregateInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  expiresAt: SortOrder
+  title: SortOrder
+  content: SortOrder
+  status: SortOrder
+  views: SortOrder
+  authorId: SortOrder
+  locationId: SortOrder
+  source: SortOrder
+  companyId: SortOrder
+  externalUrl: SortOrder
+}
+
+input JobAvgOrderByAggregateInput {
+  views: SortOrder
+}
+
+input JobMaxOrderByAggregateInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  expiresAt: SortOrder
+  title: SortOrder
+  content: SortOrder
+  status: SortOrder
+  views: SortOrder
+  authorId: SortOrder
+  locationId: SortOrder
+  source: SortOrder
+  companyId: SortOrder
+  externalUrl: SortOrder
+}
+
+input JobMinOrderByAggregateInput {
+  id: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  expiresAt: SortOrder
+  title: SortOrder
+  content: SortOrder
+  status: SortOrder
+  views: SortOrder
+  authorId: SortOrder
+  locationId: SortOrder
+  source: SortOrder
+  companyId: SortOrder
+  externalUrl: SortOrder
+}
+
+input JobSumOrderByAggregateInput {
+  views: SortOrder
+}
+
 input MapboxLocationFilterInput {
   locationName: String
   limit: Float
 }
 
 type Mutation {
-  login(loginInput: LoginInput!): LoginResponse!
+  login(data: LoginInput!): LoginResponse!
+  createJob(data: JobCreateInput!): Job!
 }
 
 input LoginInput {
   email: String!
   password: String!
+}
+
+input JobCreateInput {
+  title: String!
+  content: String!
+  location: String!
+  tags: [String!]
 }

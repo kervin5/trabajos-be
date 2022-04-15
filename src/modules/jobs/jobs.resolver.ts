@@ -1,4 +1,11 @@
-import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
 
 import { JobsService } from "./jobs.service";
 import { JobsConnection } from "./jobs.connection";
@@ -6,6 +13,10 @@ import { ConnectionArgs } from "src/common/connection/connection.args";
 import { JobsFilterInput } from "./dto/jobs-filter.input";
 import { Job } from "./models/job.model";
 import { htmlToPlainText } from "src/common/helpers/utils/text";
+import { JobCreateInput } from "./dto/job-create.input";
+import { CurrentUser } from "../auth/current-user.decorator";
+import { User } from "../users/models/user.model";
+import { JobOrderByInput } from "./dto/job-order-by.input";
 
 @Resolver(() => Job)
 export class JobsResolver {
@@ -19,9 +30,24 @@ export class JobsResolver {
   @Query(() => JobsConnection)
   async jobs(
     @Args("filter", { nullable: true }) filter: JobsFilterInput,
+    @Args("orderBy", { nullable: true }) orderBy: JobOrderByInput,
     @Args() pagination: ConnectionArgs
   ): Promise<JobsConnection> {
-    return this.jobsService.findManyForConnection(filter, pagination);
+    return this.jobsService.findManyForConnection(filter, pagination, orderBy);
+  }
+
+  //Mutations
+  @Mutation(() => Job)
+  async createJob(
+    @Args("data") data: JobCreateInput,
+    @CurrentUser() user: User
+  ): Promise<Job> {
+    const job = await this.jobsService.create({
+      ...data,
+      userId: user.id,
+    });
+
+    return job;
   }
 
   //Computed fields

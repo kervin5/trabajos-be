@@ -8,7 +8,7 @@ import { Image } from "src/modules/images/models/image.model";
 
 @ObjectType({ description: "a single job" })
 export class Job extends PrismaJob {
-  @Field((type) => String)
+  @Field(() => String)
   plainTextContent?: string;
 
   @Field(() => User)
@@ -18,7 +18,7 @@ export class Job extends PrismaJob {
   tags?: Array<Tag>;
 
   @Field(() => Location, { nullable: true })
-  location?: Location | null;
+  location?: Location;
 
   @Field(() => Company, { nullable: true })
   company?: Company | null;

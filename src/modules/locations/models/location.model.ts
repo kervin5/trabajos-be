@@ -1,4 +1,5 @@
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, HideField, ObjectType } from "@nestjs/graphql";
+import { LocationCount } from "src/@generated/prisma-nestjs-graphql/location/location-count.output";
 import { Job } from "src/modules/jobs/models/job.model";
 import { Location as PrismaLocation } from "../../../@generated/prisma-nestjs-graphql/location/location.model";
 
