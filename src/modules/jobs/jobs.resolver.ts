@@ -36,6 +36,11 @@ export class JobsResolver {
     return this.jobsService.findManyForConnection(filter, pagination, orderBy);
   }
 
+  @Query(() => [Job])
+  async publishedJobs(): Promise<Job[]> {
+    return this.jobsService.published();
+  }
+
   //Mutations
   @Mutation(() => Job)
   async createJob(

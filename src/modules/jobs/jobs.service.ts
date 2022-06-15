@@ -2,6 +2,7 @@ import { findManyCursorConnection } from "@devoxa/prisma-relay-cursor-connection
 import { Injectable } from "@nestjs/common";
 import { Job } from "@prisma/client";
 import { PrismaService } from "nestjs-prisma";
+import { JobStatus } from "src/@generated/prisma-nestjs-graphql/prisma/job-status.enum";
 import { ConnectionArgs } from "src/common/connection/connection.args";
 import { removeStopWords } from "src/common/helpers/utils/text";
 import { QueryMode } from "src/common/types/query-mode.type";
@@ -27,6 +28,12 @@ export class JobsService {
 
   findMany(args: JobWhereInput): Promise<Job[]> {
     return this.prismaService.job.findMany({ where: args });
+  }
+
+  published(): Promise<Job[]> {
+    return this.prismaService.job.findMany({
+      where: { status: JobStatus.PUBLISHED },
+    });
   }
 
   async findManyForConnection(

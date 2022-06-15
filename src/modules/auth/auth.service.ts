@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { UsersService } from "src/modules/users/users.service";
-import { jwtSecret } from "./constants";
-import { compare } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import { User } from "src/modules/users/models/user.model";
+import { RegisterInput } from "./dto/register.input";
+import { SystemRole } from "@prisma/client";
 
 @Injectable()
 export class AuthService {
@@ -32,8 +33,27 @@ export class AuthService {
     };
   }
 
+  async register(
+    data: RegisterInput
+  ): Promise<{ accessToken: string; user: User }> {
+    const hashedPassword = await hash(data.password, 10);
+
+    const user = await this.userService.create({
+      ...data,
+      password: hashedPassword,
+      role: data.isEmployer ? SystemRole.EMPLOYER : SystemRole.CANDIDATE,
+    });
+
+    const payload = { email: user.email, sub: user.id };
+
+    return {
+      accessToken: this.jwtService.sign(payload),
+      user,
+    };
+  }
+
   async verify(token: string): Promise<User | null> {
-    const decoded = this.jwtService.verify(token, { secret: jwtSecret });
+    const decoded = this.jwtService.verify(token);
     const user = await this.userService.findOne({
       email: decoded.email,
       id: decoded.sub,

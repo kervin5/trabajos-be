@@ -1,7 +1,13 @@
 import { Injectable } from "@nestjs/common";
+import { SystemRole } from "@prisma/client";
 import { PrismaService } from "nestjs-prisma";
+import { UserCreateInput } from "src/@generated/prisma-nestjs-graphql/user/user-create.input";
 import { UserWhereUniqueInput } from "./dto/user-wehre-unique.input";
 import { UserWhereInput } from "./dto/user-where.input";
+import {
+  addComputedFields,
+  addComputedFieldsToMany,
+} from "./helpers/computed-fields.helper";
 // import { UserWhereUniqueInput } from "src/@generated/prisma-nestjs-graphql/user/user-where-unique.input";
 // import { UserWhereInput } from "src/@generated/prisma-nestjs-graphql/user/user-where.input";
 import { User } from "./models/user.model";
@@ -11,11 +17,21 @@ import { User } from "./models/user.model";
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  findOne(args: UserWhereUniqueInput): Promise<User | null> {
-    return this.prismaService.user.findUnique({ where: args });
+  async findOne(args: UserWhereUniqueInput): Promise<User | null> {
+    const user = await this.prismaService.user.findUnique({ where: args });
+    return addComputedFields(user, { displayName: true });
   }
 
-  findMany(args: UserWhereInput): Promise<User[]> {
-    return this.prismaService.user.findMany({ where: args });
+  async findMany(args: UserWhereInput): Promise<User[]> {
+    const users = await this.prismaService.user.findMany({ where: args });
+    return addComputedFieldsToMany(users, { displayName: true });
+  }
+
+  async create(args: UserCreateInput): Promise<User> {
+    const user = await this.prismaService.user.create({
+      data: args,
+    });
+
+    return addComputedFields(user, { displayName: true });
   }
 }

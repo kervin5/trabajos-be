@@ -135,7 +135,7 @@ enum SystemRole {
   EMPLOYER
 }
 
-type LoginResponse {
+type AuthResponse {
   accessToken: String!
   user: User!
 }
@@ -170,8 +170,10 @@ type JobEdge {
 type Query {
   user(id: String!): User!
   users(where: UserWhereInput, orderBy: [UserOrderByWithRelationAndSearchRelevanceInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
+  identify: User!
   job(id: String!): Job!
   jobs(filter: JobsFilterInput, orderBy: JobOrderByInput, first: Int, after: String, last: Int, before: String): JobsConnection!
+  publishedJobs: [Job!]!
   mapboxLocations(filter: MapboxLocationFilterInput!): [MapboxLocation!]!
 }
 
@@ -729,13 +731,22 @@ input MapboxLocationFilterInput {
 }
 
 type Mutation {
-  login(data: LoginInput!): LoginResponse!
+  login(data: LoginInput!): AuthResponse!
+  register(data: RegisterInput!): AuthResponse!
   createJob(data: JobCreateInput!): Job!
 }
 
 input LoginInput {
   email: String!
   password: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  isEmployer: Boolean!
 }
 
 input JobCreateInput {

@@ -16,6 +16,7 @@ import { PrismaService } from "nestjs-prisma";
 // import { UserWhereInput } from "src/@generated/prisma-nestjs-graphql/user/user-where.input";
 // import { User } from "src/@generated/prisma-nestjs-graphql/user/user.model";
 import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
+import { CurrentUser } from "../auth/current-user.decorator";
 import { FindManyUserArgs } from "./dto/find-many-user.args";
 import { User } from "./models/user.model";
 import { UsersService } from "./users.service";
@@ -50,26 +51,17 @@ export class UsersResolver {
     return this.usersService.findMany({ ...args.where });
   }
 
-  @ResolveField("displayName", () => Date, {
-    description: "User Profile Last Online",
-    nullable: true,
-  })
-  displayName(
-    @Parent()
-    user: User
-  ): string {
-    const { firstName, lastName } = user;
-    return `${firstName} ${lastName}`;
-  }
-
-  //   @Mutation((returns) => User)
-  //   async addRecipe(
-  //     @Args("newRecipeData") newRecipeData: CreateOneUserArgs
-  //   ): Promise<User> {
-  //     const recipe = await this.recipesService.create(newRecipeData);
-  //     pubSub.publish("recipeAdded", { recipeAdded: recipe });
-  //     return recipe;
-  //   }
+  // @ResolveField("displayName", () => Date, {
+  //   description: "User full name",
+  //   nullable: true,
+  // })
+  // displayName(
+  //   @Parent()
+  //   user: User
+  // ): string {
+  //   const { firstName, lastName } = user;
+  //   return `${firstName} ${lastName}`;
+  // }
 
   //   @Mutation((returns) => Boolean)
   //   async removeRecipe(@Args("id") id: string) {
