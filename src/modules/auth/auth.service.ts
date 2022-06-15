@@ -39,8 +39,10 @@ export class AuthService {
     const hashedPassword = await hash(data.password, 10);
 
     const user = await this.userService.create({
-      ...data,
+      firstName: data.firstName,
+      lastName: data.lastName,
       password: hashedPassword,
+      email: data.email,
       role: data.isEmployer ? SystemRole.EMPLOYER : SystemRole.CANDIDATE,
     });
 
