@@ -23,6 +23,7 @@ export class JobsService {
   ) {}
 
   findOne(args: JobWhereUniqueInput): Promise<Job | null> {
+    console.log(args)
     return this.prismaService.job.findUnique({ where: args });
   }
 

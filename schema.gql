@@ -171,7 +171,7 @@ type Query {
   user(id: String!): User!
   users(where: UserWhereInput, orderBy: [UserOrderByWithRelationAndSearchRelevanceInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): [User!]!
   identify: User!
-  job(id: String!): Job!
+  job(id: String): Job!
   jobs(filter: JobsFilterInput, orderBy: JobOrderByInput, first: Int, after: String, last: Int, before: String): JobsConnection!
   publishedJobs: [Job!]!
   mapboxLocations(filter: MapboxLocationFilterInput!): [MapboxLocation!]!
@@ -754,4 +754,5 @@ input JobCreateInput {
   content: String!
   location: String!
   tags: [String!]
+  status: JobStatus
 }

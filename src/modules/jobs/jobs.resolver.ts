@@ -17,13 +17,15 @@ import { JobCreateInput } from "./dto/job-create.input";
 import { CurrentUser } from "../auth/current-user.decorator";
 import { User } from "../users/models/user.model";
 import { JobOrderByInput } from "./dto/job-order-by.input";
+import { UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @Resolver(() => Job)
 export class JobsResolver {
   constructor(private readonly jobsService: JobsService) {}
 
   @Query(() => Job)
-  async job(@Args("id") id: string): Promise<Job> {
+  async job(@Args("id", {nullable: true}) id: string): Promise<Job> {
     return this.jobsService.findOne({ id });
   }
 
@@ -43,6 +45,7 @@ export class JobsResolver {
 
   //Mutations
   @Mutation(() => Job)
+  @UseGuards(JwtAuthGuard)
   async createJob(
     @Args("data") data: JobCreateInput,
     @CurrentUser() user: User
