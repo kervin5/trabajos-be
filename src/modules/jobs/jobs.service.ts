@@ -23,7 +23,7 @@ export class JobsService {
   ) {}
 
   findOne(args: JobWhereUniqueInput): Promise<Job | null> {
-    console.log(args)
+    // console.log(args)
     return this.prismaService.job.findUnique({ where: args });
   }
 
@@ -43,7 +43,7 @@ export class JobsService {
     orderBy: JobOrderByInput
   ): Promise<JobsConnection> {
     // return this.prismaService.job.findMany({ where: args });
-    console.log(pagination);
+    // console.log(pagination);
 
     const queryFilter = await this.getSearchFilter(filter);
 
