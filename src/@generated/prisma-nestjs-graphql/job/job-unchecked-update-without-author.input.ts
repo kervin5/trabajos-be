@@ -7,8 +7,8 @@ import { EnumJobStatusFieldUpdateOperationsInput } from '../prisma/enum-job-stat
 import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 import { EnumJobSourceFieldUpdateOperationsInput } from '../prisma/enum-job-source-field-update-operations.input';
-import { ImageUncheckedUpdateManyWithoutJobInput } from '../image/image-unchecked-update-many-without-job.input';
-import { TagUncheckedUpdateManyWithoutJobsInput } from '../tag/tag-unchecked-update-many-without-jobs.input';
+import { ImageUncheckedUpdateManyWithoutJobNestedInput } from '../image/image-unchecked-update-many-without-job-nested.input';
+import { TagUncheckedUpdateManyWithoutJobsNestedInput } from '../tag/tag-unchecked-update-many-without-jobs-nested.input';
 
 @InputType()
 export class JobUncheckedUpdateWithoutAuthorInput {
@@ -46,12 +46,12 @@ export class JobUncheckedUpdateWithoutAuthorInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     companyId?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => ImageUncheckedUpdateManyWithoutJobInput, {nullable:true})
-    images?: ImageUncheckedUpdateManyWithoutJobInput;
+    @Field(() => ImageUncheckedUpdateManyWithoutJobNestedInput, {nullable:true})
+    images?: ImageUncheckedUpdateManyWithoutJobNestedInput;
 
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     externalUrl?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => TagUncheckedUpdateManyWithoutJobsInput, {nullable:true})
-    tags?: TagUncheckedUpdateManyWithoutJobsInput;
+    @Field(() => TagUncheckedUpdateManyWithoutJobsNestedInput, {nullable:true})
+    tags?: TagUncheckedUpdateManyWithoutJobsNestedInput;
 }

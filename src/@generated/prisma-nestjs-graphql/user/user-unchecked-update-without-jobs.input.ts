@@ -4,9 +4,9 @@ import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 import { EnumSystemRoleFieldUpdateOperationsInput } from '../prisma/enum-system-role-field-update-operations.input';
-import { EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeInput } from '../employee-in-company/employee-in-company-unchecked-update-many-without-employee.input';
+import { EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeNestedInput } from '../employee-in-company/employee-in-company-unchecked-update-many-without-employee-nested.input';
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { TagUncheckedUpdateManyWithoutUserInput } from '../tag/tag-unchecked-update-many-without-user.input';
+import { TagUncheckedUpdateManyWithoutUserNestedInput } from '../tag/tag-unchecked-update-many-without-user-nested.input';
 
 @InputType()
 export class UserUncheckedUpdateWithoutJobsInput {
@@ -38,8 +38,8 @@ export class UserUncheckedUpdateWithoutJobsInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     phone?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeInput, {nullable:true})
-    companies?: EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeInput;
+    @Field(() => EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeNestedInput, {nullable:true})
+    companies?: EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeNestedInput;
 
     @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
     emailVerified?: BoolFieldUpdateOperationsInput;
@@ -47,6 +47,6 @@ export class UserUncheckedUpdateWithoutJobsInput {
     @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
     phoneVerified?: BoolFieldUpdateOperationsInput;
 
-    @Field(() => TagUncheckedUpdateManyWithoutUserInput, {nullable:true})
-    tags?: TagUncheckedUpdateManyWithoutUserInput;
+    @Field(() => TagUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    tags?: TagUncheckedUpdateManyWithoutUserNestedInput;
 }

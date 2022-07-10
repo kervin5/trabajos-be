@@ -2,7 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { FloatFieldUpdateOperationsInput } from '../prisma/float-field-update-operations.input';
-import { JobUncheckedUpdateManyWithoutLocationInput } from '../job/job-unchecked-update-many-without-location.input';
+import { JobUncheckedUpdateManyWithoutLocationNestedInput } from '../job/job-unchecked-update-many-without-location-nested.input';
 
 @InputType()
 export class LocationUncheckedUpdateInput {
@@ -19,6 +19,6 @@ export class LocationUncheckedUpdateInput {
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
     longitude?: FloatFieldUpdateOperationsInput;
 
-    @Field(() => JobUncheckedUpdateManyWithoutLocationInput, {nullable:true})
-    jobs?: JobUncheckedUpdateManyWithoutLocationInput;
+    @Field(() => JobUncheckedUpdateManyWithoutLocationNestedInput, {nullable:true})
+    jobs?: JobUncheckedUpdateManyWithoutLocationNestedInput;
 }

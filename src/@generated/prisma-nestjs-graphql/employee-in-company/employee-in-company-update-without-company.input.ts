@@ -1,14 +1,14 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { UserUpdateOneRequiredWithoutCompaniesInput } from '../user/user-update-one-required-without-companies.input';
+import { UserUpdateOneRequiredWithoutCompaniesNestedInput } from '../user/user-update-one-required-without-companies-nested.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { EnumUserRoleInCompanyFieldUpdateOperationsInput } from '../prisma/enum-user-role-in-company-field-update-operations.input';
 
 @InputType()
 export class EmployeeInCompanyUpdateWithoutCompanyInput {
 
-    @Field(() => UserUpdateOneRequiredWithoutCompaniesInput, {nullable:true})
-    employee?: UserUpdateOneRequiredWithoutCompaniesInput;
+    @Field(() => UserUpdateOneRequiredWithoutCompaniesNestedInput, {nullable:true})
+    employee?: UserUpdateOneRequiredWithoutCompaniesNestedInput;
 
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: DateTimeFieldUpdateOperationsInput;

@@ -5,12 +5,12 @@ import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-up
 import { NullableDateTimeFieldUpdateOperationsInput } from '../prisma/nullable-date-time-field-update-operations.input';
 import { EnumJobStatusFieldUpdateOperationsInput } from '../prisma/enum-job-status-field-update-operations.input';
 import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input';
-import { UserUpdateOneWithoutJobsInput } from '../user/user-update-one-without-jobs.input';
+import { UserUpdateOneWithoutJobsNestedInput } from '../user/user-update-one-without-jobs-nested.input';
 import { EnumJobSourceFieldUpdateOperationsInput } from '../prisma/enum-job-source-field-update-operations.input';
-import { CompanyUpdateOneWithoutJobsInput } from '../company/company-update-one-without-jobs.input';
-import { ImageUpdateManyWithoutJobInput } from '../image/image-update-many-without-job.input';
+import { CompanyUpdateOneWithoutJobsNestedInput } from '../company/company-update-one-without-jobs-nested.input';
+import { ImageUpdateManyWithoutJobNestedInput } from '../image/image-update-many-without-job-nested.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { TagUpdateManyWithoutJobsInput } from '../tag/tag-update-many-without-jobs.input';
+import { TagUpdateManyWithoutJobsNestedInput } from '../tag/tag-update-many-without-jobs-nested.input';
 
 @InputType()
 export class JobUpdateWithoutLocationInput {
@@ -39,21 +39,21 @@ export class JobUpdateWithoutLocationInput {
     @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
     views?: IntFieldUpdateOperationsInput;
 
-    @Field(() => UserUpdateOneWithoutJobsInput, {nullable:true})
-    author?: UserUpdateOneWithoutJobsInput;
+    @Field(() => UserUpdateOneWithoutJobsNestedInput, {nullable:true})
+    author?: UserUpdateOneWithoutJobsNestedInput;
 
     @Field(() => EnumJobSourceFieldUpdateOperationsInput, {nullable:true})
     source?: EnumJobSourceFieldUpdateOperationsInput;
 
-    @Field(() => CompanyUpdateOneWithoutJobsInput, {nullable:true})
-    company?: CompanyUpdateOneWithoutJobsInput;
+    @Field(() => CompanyUpdateOneWithoutJobsNestedInput, {nullable:true})
+    company?: CompanyUpdateOneWithoutJobsNestedInput;
 
-    @Field(() => ImageUpdateManyWithoutJobInput, {nullable:true})
-    images?: ImageUpdateManyWithoutJobInput;
+    @Field(() => ImageUpdateManyWithoutJobNestedInput, {nullable:true})
+    images?: ImageUpdateManyWithoutJobNestedInput;
 
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     externalUrl?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => TagUpdateManyWithoutJobsInput, {nullable:true})
-    tags?: TagUpdateManyWithoutJobsInput;
+    @Field(() => TagUpdateManyWithoutJobsNestedInput, {nullable:true})
+    tags?: TagUpdateManyWithoutJobsNestedInput;
 }

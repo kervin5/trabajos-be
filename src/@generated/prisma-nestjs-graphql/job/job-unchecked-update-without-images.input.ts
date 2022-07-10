@@ -7,7 +7,7 @@ import { EnumJobStatusFieldUpdateOperationsInput } from '../prisma/enum-job-stat
 import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 import { EnumJobSourceFieldUpdateOperationsInput } from '../prisma/enum-job-source-field-update-operations.input';
-import { TagUncheckedUpdateManyWithoutJobsInput } from '../tag/tag-unchecked-update-many-without-jobs.input';
+import { TagUncheckedUpdateManyWithoutJobsNestedInput } from '../tag/tag-unchecked-update-many-without-jobs-nested.input';
 
 @InputType()
 export class JobUncheckedUpdateWithoutImagesInput {
@@ -51,6 +51,6 @@ export class JobUncheckedUpdateWithoutImagesInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     externalUrl?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => TagUncheckedUpdateManyWithoutJobsInput, {nullable:true})
-    tags?: TagUncheckedUpdateManyWithoutJobsInput;
+    @Field(() => TagUncheckedUpdateManyWithoutJobsNestedInput, {nullable:true})
+    tags?: TagUncheckedUpdateManyWithoutJobsNestedInput;
 }

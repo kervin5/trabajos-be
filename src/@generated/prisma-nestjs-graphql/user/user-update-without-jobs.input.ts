@@ -4,9 +4,9 @@ import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 import { EnumSystemRoleFieldUpdateOperationsInput } from '../prisma/enum-system-role-field-update-operations.input';
-import { EmployeeInCompanyUpdateManyWithoutEmployeeInput } from '../employee-in-company/employee-in-company-update-many-without-employee.input';
+import { EmployeeInCompanyUpdateManyWithoutEmployeeNestedInput } from '../employee-in-company/employee-in-company-update-many-without-employee-nested.input';
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { TagUpdateManyWithoutUserInput } from '../tag/tag-update-many-without-user.input';
+import { TagUpdateManyWithoutUserNestedInput } from '../tag/tag-update-many-without-user-nested.input';
 
 @InputType()
 export class UserUpdateWithoutJobsInput {
@@ -38,8 +38,8 @@ export class UserUpdateWithoutJobsInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     phone?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => EmployeeInCompanyUpdateManyWithoutEmployeeInput, {nullable:true})
-    companies?: EmployeeInCompanyUpdateManyWithoutEmployeeInput;
+    @Field(() => EmployeeInCompanyUpdateManyWithoutEmployeeNestedInput, {nullable:true})
+    companies?: EmployeeInCompanyUpdateManyWithoutEmployeeNestedInput;
 
     @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
     emailVerified?: BoolFieldUpdateOperationsInput;
@@ -47,6 +47,6 @@ export class UserUpdateWithoutJobsInput {
     @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
     phoneVerified?: BoolFieldUpdateOperationsInput;
 
-    @Field(() => TagUpdateManyWithoutUserInput, {nullable:true})
-    tags?: TagUpdateManyWithoutUserInput;
+    @Field(() => TagUpdateManyWithoutUserNestedInput, {nullable:true})
+    tags?: TagUpdateManyWithoutUserNestedInput;
 }

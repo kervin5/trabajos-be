@@ -2,7 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { JobUpdateOneWithoutImagesInput } from '../job/job-update-one-without-images.input';
+import { JobUpdateOneWithoutImagesNestedInput } from '../job/job-update-one-without-images-nested.input';
 
 @InputType()
 export class ImageUpdateInput {
@@ -22,6 +22,6 @@ export class ImageUpdateInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     bucket?: StringFieldUpdateOperationsInput;
 
-    @Field(() => JobUpdateOneWithoutImagesInput, {nullable:true})
-    job?: JobUpdateOneWithoutImagesInput;
+    @Field(() => JobUpdateOneWithoutImagesNestedInput, {nullable:true})
+    job?: JobUpdateOneWithoutImagesNestedInput;
 }

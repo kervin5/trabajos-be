@@ -3,9 +3,9 @@ import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { JobUncheckedUpdateManyWithoutAuthorInput } from '../job/job-unchecked-update-many-without-author.input';
+import { JobUncheckedUpdateManyWithoutAuthorNestedInput } from '../job/job-unchecked-update-many-without-author-nested.input';
 import { EnumSystemRoleFieldUpdateOperationsInput } from '../prisma/enum-system-role-field-update-operations.input';
-import { EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeInput } from '../employee-in-company/employee-in-company-unchecked-update-many-without-employee.input';
+import { EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeNestedInput } from '../employee-in-company/employee-in-company-unchecked-update-many-without-employee-nested.input';
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
 
 @InputType()
@@ -32,8 +32,8 @@ export class UserUncheckedUpdateWithoutTagsInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     lastName?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => JobUncheckedUpdateManyWithoutAuthorInput, {nullable:true})
-    jobs?: JobUncheckedUpdateManyWithoutAuthorInput;
+    @Field(() => JobUncheckedUpdateManyWithoutAuthorNestedInput, {nullable:true})
+    jobs?: JobUncheckedUpdateManyWithoutAuthorNestedInput;
 
     @Field(() => EnumSystemRoleFieldUpdateOperationsInput, {nullable:true})
     role?: EnumSystemRoleFieldUpdateOperationsInput;
@@ -41,8 +41,8 @@ export class UserUncheckedUpdateWithoutTagsInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     phone?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeInput, {nullable:true})
-    companies?: EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeInput;
+    @Field(() => EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeNestedInput, {nullable:true})
+    companies?: EmployeeInCompanyUncheckedUpdateManyWithoutEmployeeNestedInput;
 
     @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
     emailVerified?: BoolFieldUpdateOperationsInput;

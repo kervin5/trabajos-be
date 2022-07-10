@@ -3,10 +3,10 @@ import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { JobUpdateManyWithoutAuthorInput } from '../job/job-update-many-without-author.input';
+import { JobUpdateManyWithoutAuthorNestedInput } from '../job/job-update-many-without-author-nested.input';
 import { EnumSystemRoleFieldUpdateOperationsInput } from '../prisma/enum-system-role-field-update-operations.input';
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { TagUpdateManyWithoutUserInput } from '../tag/tag-update-many-without-user.input';
+import { TagUpdateManyWithoutUserNestedInput } from '../tag/tag-update-many-without-user-nested.input';
 
 @InputType()
 export class UserUpdateWithoutCompaniesInput {
@@ -32,8 +32,8 @@ export class UserUpdateWithoutCompaniesInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     lastName?: NullableStringFieldUpdateOperationsInput;
 
-    @Field(() => JobUpdateManyWithoutAuthorInput, {nullable:true})
-    jobs?: JobUpdateManyWithoutAuthorInput;
+    @Field(() => JobUpdateManyWithoutAuthorNestedInput, {nullable:true})
+    jobs?: JobUpdateManyWithoutAuthorNestedInput;
 
     @Field(() => EnumSystemRoleFieldUpdateOperationsInput, {nullable:true})
     role?: EnumSystemRoleFieldUpdateOperationsInput;
@@ -47,6 +47,6 @@ export class UserUpdateWithoutCompaniesInput {
     @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
     phoneVerified?: BoolFieldUpdateOperationsInput;
 
-    @Field(() => TagUpdateManyWithoutUserInput, {nullable:true})
-    tags?: TagUpdateManyWithoutUserInput;
+    @Field(() => TagUpdateManyWithoutUserNestedInput, {nullable:true})
+    tags?: TagUpdateManyWithoutUserNestedInput;
 }

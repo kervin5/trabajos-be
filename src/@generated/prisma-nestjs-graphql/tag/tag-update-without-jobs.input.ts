@@ -2,7 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
-import { UserUpdateOneWithoutTagsInput } from '../user/user-update-one-without-tags.input';
+import { UserUpdateOneWithoutTagsNestedInput } from '../user/user-update-one-without-tags-nested.input';
 
 @InputType()
 export class TagUpdateWithoutJobsInput {
@@ -19,6 +19,6 @@ export class TagUpdateWithoutJobsInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     name?: StringFieldUpdateOperationsInput;
 
-    @Field(() => UserUpdateOneWithoutTagsInput, {nullable:true})
-    User?: UserUpdateOneWithoutTagsInput;
+    @Field(() => UserUpdateOneWithoutTagsNestedInput, {nullable:true})
+    User?: UserUpdateOneWithoutTagsNestedInput;
 }
