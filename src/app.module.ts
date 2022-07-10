@@ -21,6 +21,7 @@ import { upperDirectiveTransformer } from "./common/directives/upper-case.direct
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: "schema.gql",
+      cors: { origin: process.env.ORIGINS.split(",") },
       transformSchema: (schema) => upperDirectiveTransformer(schema, "upper"),
       installSubscriptionHandlers: true,
       playground: false,
