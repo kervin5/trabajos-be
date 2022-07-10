@@ -27,6 +27,7 @@ import { upperDirectiveTransformer } from "./common/directives/upper-case.direct
       playground: false,
       debug: true,
       introspection: true,
+      cache: "bounded",
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
