@@ -25,7 +25,7 @@ export class JobsResolver {
   constructor(private readonly jobsService: JobsService) {}
 
   @Query(() => Job)
-  async job(@Args("id", {nullable: true}) id: string): Promise<Job> {
+  async job(@Args("id", { nullable: false }) id: string): Promise<Job> {
     return this.jobsService.findOne({ id });
   }
 

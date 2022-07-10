@@ -15,6 +15,20 @@ import { JobWhereInput } from "./dto/job-where.input";
 import { JobsFilterInput } from "./dto/jobs-filter.input";
 import { JobsConnection } from "./jobs.connection";
 
+const jobInclude = {
+  author: true,
+  location: {
+    include: {
+      _count: true,
+      jobs: {
+        include: {
+          _count: true,
+        },
+      },
+    },
+  },
+};
+
 @Injectable()
 export class JobsService {
   constructor(
@@ -24,16 +38,23 @@ export class JobsService {
 
   findOne(args: JobWhereUniqueInput): Promise<Job | null> {
     // console.log(args)
-    return this.prismaService.job.findUnique({ where: args });
+    return this.prismaService.job.findUnique({
+      where: args,
+      include: jobInclude,
+    });
   }
 
   findMany(args: JobWhereInput): Promise<Job[]> {
-    return this.prismaService.job.findMany({ where: args });
+    return this.prismaService.job.findMany({
+      where: args,
+      include: jobInclude,
+    });
   }
 
   published(): Promise<Job[]> {
     return this.prismaService.job.findMany({
       where: { status: JobStatus.PUBLISHED },
+      include: jobInclude,
     });
   }
 
@@ -55,19 +76,7 @@ export class JobsService {
             ...orderBy,
           },
           ...connectionArgs,
-          include: {
-            author: true,
-            location: {
-              include: {
-                _count: true,
-                jobs: {
-                  include: {
-                    _count: true,
-                  },
-                },
-              },
-            },
-          },
+          include: jobInclude,
         }),
       () => this.prismaService.job.count(queryFilter),
       pagination

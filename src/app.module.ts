@@ -16,18 +16,18 @@ import { LocationsModule } from "./modules/locations/locations.module";
 import { MapboxModule } from "./modules/mapbox/mapbox.module";
 import { upperDirectiveTransformer } from "./common/directives/upper-case.directive";
 
+export const isProduction = process.env.NODE_ENV === "production";
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: "schema.gql",
-      cors: { origin: process.env.ORIGINS.split(",") },
       transformSchema: (schema) => upperDirectiveTransformer(schema, "upper"),
       installSubscriptionHandlers: true,
       playground: false,
       debug: true,
-      introspection: true,
-      cache: "bounded",
+      introspection: !isProduction,
+      cache: isProduction ? "bounded" : undefined,
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
@@ -37,7 +37,7 @@ import { upperDirectiveTransformer } from "./common/directives/upper-case.direct
         ],
       },
       plugins: [
-        process.env.NODE_ENV === "production"
+        isProduction
           ? ApolloServerPluginLandingPageProductionDefault({
               graphRef: "my-graph-id@my-graph-variant",
 
