@@ -28,8 +28,12 @@ export class UsersService {
   }
 
   async create(args: UserCreateInput): Promise<User> {
+    const usersCount = await this.prismaService.user.count();
+    const firstUserSettings =
+      usersCount === 0 ? { role: SystemRole.ADMIN } : {};
+
     const user = await this.prismaService.user.create({
-      data: args,
+      data: { ...args, ...firstUserSettings },
     });
 
     return addComputedFields(user, { displayName: true });
