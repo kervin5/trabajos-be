@@ -136,8 +136,8 @@ enum SystemRole {
 }
 
 type AuthResponse {
-  accessToken: String!
-  user: User!
+  accessToken: String
+  user: User
 }
 
 """a single mapbox location"""

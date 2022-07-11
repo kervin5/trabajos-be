@@ -4,8 +4,11 @@ interface AvailableFields {
   displayName?: boolean;
 }
 
-export function computeDisplayName(user: User): User {
-  return { ...user, displayName: `${user.firstName} ${user.lastName}` };
+export function computeDisplayName(user: User): User | null {
+  if (!user) {
+    return null;
+  }
+  return { ...user, displayName: `${user?.firstName} ${user?.lastName}` };
 }
 
 export function addComputedFields(
